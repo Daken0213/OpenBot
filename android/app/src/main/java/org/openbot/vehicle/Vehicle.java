@@ -158,7 +158,7 @@ public class Vehicle {
   public void requestVehicleConfig() {
     sendStringToUsb(String.format(Locale.US, "f\n"));
   }
-
+  //
   public void processVehicleConfig(String message) {
 
     setVehicleType(message.split(":")[0]);
