@@ -5,8 +5,8 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.openbot.env.GameController;
-import org.openbot.env.SensorReading;
 import org.openbot.utils.Enums;
+import org.openbot.env.SensorReading;
 
 public class Vehicle {
 
@@ -16,15 +16,15 @@ public class Vehicle {
   private int indicator = 0;
   private int speedMultiplier = 192; // 128,192,255
   private Control control = new Control(0, 0);
+  
+  private Battery battery;
+  private Wheel leftwheel;
+  private Wheel rightwheel;
 
-  private final SensorReading batteryVoltage = new SensorReading();
-  private final SensorReading leftWheelRpm = new SensorReading();
-  private final SensorReading rightWheelRpm = new SensorReading();
   private final SensorReading sonarReading = new SensorReading();
 
-  private float minMotorVoltage = 2.5f;
-  private float lowBatteryVoltage = 9.0f;
-  private float maxBatteryVoltage = 12.6f;
+
+
 
   private UsbConnection usbConnection;
   protected boolean usbConnected;
@@ -43,29 +43,6 @@ public class Vehicle {
   private boolean hasLedsStatus = false;
   private boolean isReady = false;
 
-  public float getMinMotorVoltage() {
-    return minMotorVoltage;
-  }
-
-  public void setMinMotorVoltage(float minMotorVoltage) {
-    this.minMotorVoltage = minMotorVoltage;
-  }
-
-  public float getLowBatteryVoltage() {
-    return lowBatteryVoltage;
-  }
-
-  public void setLowBatteryVoltage(float lowBatteryVoltage) {
-    this.lowBatteryVoltage = lowBatteryVoltage;
-  }
-
-  public float getMaxBatteryVoltage() {
-    return maxBatteryVoltage;
-  }
-
-  public void setMaxBatteryVoltage(float maxBatteryVoltage) {
-    this.maxBatteryVoltage = maxBatteryVoltage;
-  }
 
   public boolean isReady() {
     return isReady;
@@ -206,36 +183,6 @@ public class Vehicle {
     gameController = new GameController(driveMode);
   }
 
-  public float getBatteryVoltage() {
-    return batteryVoltage.getReading();
-  }
-
-  public int getBatteryPercentage() {
-    return (int)
-        ((batteryVoltage.getReading() - lowBatteryVoltage)
-            * 100
-            / (maxBatteryVoltage - lowBatteryVoltage));
-  }
-
-  public void setBatteryVoltage(float batteryVoltage) {
-    this.batteryVoltage.setReading(batteryVoltage);
-  }
-
-  public float getLeftWheelRpm() {
-    return leftWheelRpm.getReading();
-  }
-
-  public void setLeftWheelRpm(float leftWheelRpm) {
-    this.leftWheelRpm.setReading(leftWheelRpm);
-  }
-
-  public float getRightWheelRpm() {
-    return rightWheelRpm.getReading();
-  }
-
-  public void setRightWheelRpm(float rightWheelRpm) {
-    this.rightWheelRpm.setReading(rightWheelRpm);
-  }
 
   public float getRotation() {
     float rotation = (getLeftSpeed() - getRightSpeed()) * 180 / (getLeftSpeed() + getRightSpeed());
